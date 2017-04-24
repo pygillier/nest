@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nest</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+</head>
+<body>
+{% include '_header.html' %}
+<main class="container">
+    {% block content %}
+    <div class="row">
+
+    <div class="col s8 offset-s2">
+        <div class="card horizontal">
+            <div class="card-image">
+                <img src="http://lorempixel.com/100/190/nature/6">
+            </div>
+            <div class="card-stacked">
+                <div class="card-content">
+                    <p>I am a very simple card. I am good at containing small bits of information.</p>
+                </div>
+                <div class="card-action">
+                    <a href="#">This is a link</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </div>
+    {% endblock content %}
+</main>
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
+<script src="{{ url_for('static', filename='main.js') }}"></script>
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+        <script type="text/javascript">
+        Materialize.toast("{{ message }}", 4000)
+        </script>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+</body>
+</html>

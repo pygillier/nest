@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="col s8 offset-s2">
+        <form method="POST" action="{{ url_for('upload_file') }}" enctype="multipart/form-data">
+        <div class="card horizontal">
+            <div class="card-image">
+                <img src="http://lorempixel.com/100/190/nature/6">
+            </div>
+            <div class="card-stacked">
+                <div class="card-content">
+                    <p>I am a very simple card. I am good at containing small bits of information.</p>
+                    <p>
+                        <div class="file-field input-field">
+                          <div class="btn">
+                            <span>File</span>
+                            <input type="file" name="file">
+                          </div>
+                          <div class="file-path-wrapper">
+                            <input class="file-path validate" type="text">
+                          </div>
+                        </div>
+                    </p>
+                </div>
+                <div class="card-action align-right">
+                    <button type="submit" class="waves-effect waves-teal btn-flat">
+                    Envoyer <i class="material-icons right">send</i>
+                </button>
+                </div>
+            </div>
+        </div>
+        </form>
+    </div>
+{% endblock content %}
