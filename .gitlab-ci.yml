@@ -14,8 +14,8 @@ safety:
 codestyle:
   type: checks
   script:
-    - pip install pep8
-    - pep8 manage.py tests/ app/ --ignore E402
+    - pip install flake8
+    - flake8
 
 #test:
 #  services:
