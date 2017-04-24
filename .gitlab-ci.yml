@@ -1,0 +1,47 @@
+image: python:3.5
+
+stages:
+  #- test
+  - checks
+  - deploy
+
+safety:
+  type: checks
+  script:
+    - pip install safety
+    - safety check -r requirements.txt
+
+codestyle:
+  type: checks
+  script:
+    - pip install pep8
+    - pep8 manage.py tests/ app/ --ignore E402
+
+#test:
+#  services:
+#    - postgres:9.5
+#  script:
+#    - pip install -r requirements.txt
+#    - pip install nose2 cov-core
+#    - source ci.env
+#    - nose2 -c nose.ini --with-coverage
+#  artifacts:
+#    paths:
+#    - htmlcov/
+
+pages:
+  image: python:3.5
+  type: deploy
+  only:
+    - tags
+  script:
+    - pip install -r requirements.txt
+    - pip install sphinx sphinx-rtd-theme
+    - source ci.env
+    - sphinx-build -M html docs docs/_build -D version=$CI_BUILD_TAG -D release=$CI_BUILD_TAG
+    - mkdir .public
+    - cp -r docs/_build/* .public
+    - mv .public public
+  artifacts:
+    paths:
+    - public
