@@ -1,17 +1,17 @@
-from flask import render_template, flash, redirect
-from flask import url_for, request
-from flask_login import login_required
+from flask import render_template, redirect, request, flash, current_app, url_for
 from werkzeug.utils import secure_filename
-from . import app, boto_flask
+
+from . import boto, home
 from .utils import allowed_file
+from flask_login import login_required
 
 
-@app.route('/')
+@home.route('/')
 def index():
     return render_template("index.html")
 
 
-@app.route('/upload', methods=['GET', 'POST'])
+@home.route('/upload', methods=['GET', 'POST'])
 def upload_file():
     if request.method == 'POST':
         # check if the post request has the file part
@@ -26,30 +26,30 @@ def upload_file():
             return redirect(request.url)
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
-            boto_flask.clients['s3'].put_object(
+            boto.clients['s3'].put_object(
                 ACL='public-read',
-                Bucket=app.config['S3_BUCKET'],
+                Bucket=current_app.config['S3_BUCKET'],
                 Key=filename,
                 Body=file,
             )
             flash("Your file has been uploaded successfully!")
-            return redirect(url_for('list_uploaded_files'))
+            return redirect(url_for('home.list_uploaded_files'))
 
 
-@app.route('/delete/<name>')
+@home.route('/delete/<name>')
 def delete_file(name):
-    boto_flask.clients['s3'].delete_object(
-        Bucket=app.config['S3_BUCKET'],
+    boto.clients['s3'].delete_object(
+        Bucket=current_app.config['S3_BUCKET'],
         Key=name
     )
     flash("File %s was deleted" % name)
-    return redirect(url_for('list_uploaded_files'))
+    return redirect(url_for('home.list_uploaded_files'))
 
 
-@app.route('/uploads')
+@home.route('/uploads')
 @login_required
 def list_uploaded_files():
-    contents = boto_flask.clients['s3'].list_objects_v2(
-        Bucket=app.config['S3_BUCKET']
+    contents = boto.clients['s3'].list_objects_v2(
+        Bucket=current_app.config['S3_BUCKET']
     )
     return render_template('uploaded.html', contents=contents)

@@ -10,8 +10,8 @@
         {% endif %}
     </div></li>
     {% if current_user.is_authenticated %}
-        <li><a href="{{ url_for("index") }}"><i class="material-icons">cloud_upload</i>Upload a file</a></li>
-        <li><a href="{{ url_for("list_uploaded_files") }}"><i class="material-icons">folder_open</i>My files</a></li>
+        <li><a href="{{ url_for("home.index") }}"><i class="material-icons">cloud_upload</i>Upload a file</a></li>
+        <li><a href="{{ url_for("home.list_uploaded_files") }}"><i class="material-icons">folder_open</i>My files</a></li>
         <li><div class="divider"></div></li>
         <li><a href="{{ url_for('login.logout') }}"><i class="material-icons">power_settings_new</i>Logout</a></li>
     {% else %}
