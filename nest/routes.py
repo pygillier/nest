@@ -1,10 +1,8 @@
 from flask import render_template, flash, redirect
-from flask import url_for, request, make_response, session
-from flask_login import login_required, logout_user, login_user
+from flask import url_for, request
+from flask_login import login_required
 from werkzeug.utils import secure_filename
-from authomatic.adapters import WerkzeugAdapter
-from . import app, boto_flask, authomatic
-from .models import db, User
+from . import app, boto_flask
 from .utils import allowed_file
 
 
@@ -55,42 +53,3 @@ def list_uploaded_files():
         Bucket=app.config['S3_BUCKET']
     )
     return render_template('uploaded.html', contents=contents)
-
-
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    response = make_response()
-    result = authomatic.login(
-        WerkzeugAdapter(request, response),
-        provider_name='google',
-        session=session,
-        session_saver=lambda: app.save_session(session, response)
-    )
-
-    # If there is no LoginResult object, the login procedure is still pending.
-    if result:
-        if result.user:
-            # We need to update the user to get more info.
-            result.user.update()
-            user = User.query.filter_by(email=result.user.email).first()
-            if user is None:
-                user = User(email=result.user.email,
-                            username=result.user.email.split('@')[0],
-                            picture=result.user.picture)
-                db.session.add(user)
-                db.session.commit()
-            login_user(user, remember=True)
-
-        # The rest happens inside the template.
-        flash("Welcome %s!" % result.user.name)
-        return redirect(url_for('index'))
-
-    # Don't forget to return the response.
-    return response
-
-
-@app.route("/logout")
-@login_required
-def logout():
-    logout_user()
-    return redirect(url_for('index'))

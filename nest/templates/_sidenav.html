@@ -13,8 +13,8 @@
         <li><a href="{{ url_for("index") }}"><i class="material-icons">cloud_upload</i>Upload a file</a></li>
         <li><a href="{{ url_for("list_uploaded_files") }}"><i class="material-icons">folder_open</i>My files</a></li>
         <li><div class="divider"></div></li>
-        <li><a href="{{ url_for('logout') }}"><i class="material-icons">power_settings_new</i>Logout</a></li>
+        <li><a href="{{ url_for('login.logout') }}"><i class="material-icons">power_settings_new</i>Logout</a></li>
     {% else %}
-        <li><a href="{{ url_for('login') }}"><i class="material-icons">power_settings_new</i>Login</a></li>
+        <li><a href="{{ url_for('login.login') }}"><i class="material-icons">power_settings_new</i>Login</a></li>
     {% endif %}
   </ul>
