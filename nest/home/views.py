@@ -1,4 +1,5 @@
-from flask import render_template, redirect, request, flash, current_app, url_for
+from flask import render_template, redirect, request,\
+    flash, current_app, url_for
 from werkzeug.utils import secure_filename
 
 from . import boto, home

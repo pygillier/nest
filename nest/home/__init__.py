@@ -10,6 +10,7 @@ home = Blueprint(
 
 boto = Boto3()
 
+
 @home.record_once
 def on_load(state):
     boto.init_app(state.app)
