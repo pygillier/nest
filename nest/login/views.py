@@ -1,8 +1,6 @@
 from flask import render_template
-from flask_login import LoginManager
-from .models import User
-
-login_manager = LoginManager()
+from . import login_manager
+from nest.models import User
 
 
 @login_manager.user_loader
@@ -13,4 +11,4 @@ def load_user(user_id):
 @login_manager.unauthorized_handler
 def unauthorized():
     # do stuff
-    return render_template("forbidden.html")
+    return render_template('forbidden.html')
