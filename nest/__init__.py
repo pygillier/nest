@@ -1,4 +1,4 @@
-import werkzeug
+from werkzeug.exceptions import BadRequest
 from flask import Flask, render_template
 import os
 from .login import login
@@ -20,13 +20,11 @@ with app.app_context():
     db.create_all()
 
 
-@app.errorhandler(werkzeug.exceptions.BadRequest)
+@app.errorhandler(BadRequest)
 def handle_bad_request(e):
-    return 'bad request!'
-
-app.register_error_handler(400, lambda e: 'bad request!')
+    return 'bad request!' % e
 
 
 @app.errorhandler(404)
 def error404(error):
-    return render_template("notfound.html"), 404
+    return render_template("notfound.html", error=error), 404
