@@ -29,7 +29,8 @@ def unauthorized():
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('index'))
+    flash("You have been disconnected!")
+    return redirect(url_for('home.index'))
 
 
 @login.route('/login', methods=['GET', 'POST'])
@@ -51,14 +52,15 @@ def login():
             if user is None:
                 user = User(email=result.user.email,
                             username=result.user.email.split('@')[0],
-                            picture=result.user.picture)
+                            picture=result.user.picture,
+                            first_name=result.user.first_name)
                 db.session.add(user)
                 db.session.commit()
             login_user(user, remember=True)
 
         # The rest happens inside the template.
         flash("Welcome %s!" % result.user.name)
-        return redirect(url_for('index'))
+        return redirect(url_for('home.index'))
 
     # Don't forget to return the response.
     return response

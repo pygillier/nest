@@ -4,11 +4,11 @@
         <div class="col s6 offset-s3">
           <div class="card white">
             <div class="card-content">
-              <span class="card-title">Access forbidden</span>
-              <p>Unfortunately, you don't have access to this page. You can try to login.</p>
+              <span class="card-title">Authentication required</span>
+              <p>In order to use this application, you must be signed-in using your Google account.</p>
             </div>
             <div class="card-action">
-              <a href="{{ url_for('login') }}">Login</a>
+              <a href="{{ url_for('login.login') }}">Sign in</a>
             </div>
           </div>
         </div>

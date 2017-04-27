@@ -8,11 +8,13 @@ from flask_login import login_required
 
 
 @home.route('/')
+@login_required
 def index():
     return render_template("index.html")
 
 
 @home.route('/upload', methods=['GET', 'POST'])
+@login_required
 def upload_file():
     if request.method == 'POST':
         # check if the post request has the file part
@@ -35,9 +37,12 @@ def upload_file():
             )
             flash("Your file has been uploaded successfully!")
             return redirect(url_for('home.list_uploaded_files'))
+    else:
+        return render_template('index.html')
 
 
 @home.route('/delete/<name>')
+@login_required
 def delete_file(name):
     boto.clients['s3'].delete_object(
         Bucket=current_app.config['S3_BUCKET'],
