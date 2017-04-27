@@ -1,5 +1,6 @@
 from werkzeug.exceptions import BadRequest
 from flask import Flask, render_template
+from flask_debugtoolbar import DebugToolbarExtension
 import os
 from .login import login
 from .home import home
@@ -8,8 +9,9 @@ from .models import db
 app = Flask(__name__)
 app.config.from_object(os.environ['app.settings'])
 
-
+# Init extensions
 db.init_app(app)
+toolbar = DebugToolbarExtension(app)
 
 # Load login blueprint
 app.register_blueprint(login)
