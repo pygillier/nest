@@ -37,6 +37,9 @@ def upload_file():
             )
             flash("Your file has been uploaded successfully!")
             return redirect(url_for('home.list_uploaded_files'))
+        else:
+            flash("This type of file is forbidden.")
+            return redirect(request.url)
     else:
         return render_template('index.html')
 
