@@ -6,7 +6,7 @@ botocore==1.4.93
 click==6.7
 docutils==0.13.1
 flake8==3.3.0
-Flask==0.10.1
+Flask==1.0
 Flask-Boto3==0.2.2
 Flask-DebugToolbar==0.10.1
 Flask-Login==0.4.0
